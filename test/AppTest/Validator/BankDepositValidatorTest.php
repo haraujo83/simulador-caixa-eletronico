@@ -8,11 +8,12 @@ use App\Validator\BankDepositValidator;
 use PHPUnit\Framework\TestCase;
 
 /**
- *
+ * Classe para testar validador de depósitos
  */
 class BankDepositValidatorTest extends TestCase
 {
     /**
+     * @param mixed $value
      * @dataProvider validValuesProvider
      */
     public function testValidValues($value): void
@@ -40,6 +41,7 @@ class BankDepositValidatorTest extends TestCase
     }
 
     /**
+     * @param mixed $value
      * @dataProvider invalidValuesProvider
      */
     public function testInvalidValues($value): void
