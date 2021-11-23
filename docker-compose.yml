@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  db:
+    container_name: db
+    image: mysql
+    volumes:
+      - mysql_volume:/var/lib/mysql/data
+    environment:
+      MYSQL_PASSWORD: db
+      MYSQL_DATABASE: db
+      MYSQL_USER: db
+    ports:
+      - "5432:5432"
+
+  db-test:
+    container_name: db-test
+    image: mysql
+    volumes:
+      - test_mysql_volume:/var/lib/mysql/data
+    environment:
+      MYSQL_PASSWORD: db
+      MYSQL_DATABASE: db
+      MYSQL_USER: db
+    ports:
+      - "5433:5432"
+
+  app:
+    build: ./
+    container_name: simulador-caixa-eletronico
+    volumes:
+      - ./:/var/www/app
+    ports:
+      - "80:80"
+    links:
+      - db
+      - db-test
+
+volumes:
+  mysql_volume:
+  test_mysql_volume:
