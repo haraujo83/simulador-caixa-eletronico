@@ -11,7 +11,7 @@ Utilizei:
 - Básico de Solid (principalmente o Single Responsibility)
 - Clean Code
 
-##O que foi feito
+## O que foi feito
 - Handlers para:
     - Busca usuários
     - Incluir usuário
@@ -35,7 +35,9 @@ Utilizei:
 - cadastro de contas por usuário
 - verificação de concorrência de operações saque/depósito
 - padronizar mensagens de commmit
+- usar pull requests
 - documentação das api's
+- mais testes unitários
 
 ## Iniciando
 
