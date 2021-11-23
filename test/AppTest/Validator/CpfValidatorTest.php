@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace AppTest\Validator;
@@ -7,11 +8,12 @@ use App\Validator\CpfValidator;
 use PHPUnit\Framework\TestCase;
 
 /**
- *
+ * Classe para testar validador de CPF
  */
 class CpfValidatorTest extends TestCase
 {
     /**
+     * @param mixed $value
      * @dataProvider validValuesProvider
      */
     public function testValidValues($value): void
@@ -35,6 +37,7 @@ class CpfValidatorTest extends TestCase
     }
 
     /**
+     * @param mixed $value
      * @dataProvider invalidValuesProvider
      */
     public function testInvalidValues($value): void
