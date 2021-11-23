@@ -6,6 +6,7 @@ Utilizei:
 - Framework Mezzio https://docs.mezzio.dev/ (com pacotes do Laminas https://getlaminas.org/)
 - CodeSniffer
 - PHP 7.4.20
+- Git com Git Flow
 - Alguns Design Patterns (Table Data GateWay, Abstract Factory, Chain of Responsibility, etc.)
 - Básico de Solid (principalmente o Single Responsibility)
 - Clean Code
@@ -20,6 +21,21 @@ Utilizei:
     - Data (formato Y-m-d ou d/m/Y)
     - CPF (formatado ou somente digitos, verifica número e se já existe um usuário com o mesmo número quando for inclusão)
     - Status do usuário (verifica se o id está na tabela user_statuses)
+- Testes:
+    - validador de cpf
+    - validador de depósito
+
+## A fazer
+- usar tickets do trello com tasks
+- autenticação para acesso as api's
+- docker
+- migrations c/ doctrine
+- validador de saque
+- validador de valor disponível no caixa
+- cadastro de contas por usuário
+- verificação de concorrência de operações saque/depósito
+- padronizar mensagens de commmit
+- documentação das api's
 
 ## Iniciando
 

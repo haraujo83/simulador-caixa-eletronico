@@ -18,16 +18,19 @@ use function strlen;
 class CpfValidator extends AbstractValidator
 {
     public const NOT_IS_CPF = 'notIsCpf';
-/** @var array|string[] */
+
+    /** @var array|string[] */
     protected array $messageTemplates = [self::NOT_IS_CPF => 'O CPF informado é inválido'];
-/**
- * @inheritDoc
- */
+
+    /**
+     * @inheritDoc
+     */
     public function isValid($value): bool
     {
         // Extrai somente os números
         $cpf = preg_replace('/[^0-9]/is', '', $value);
-// Verifica se foi informado todos os digitos corretamente
+
+        // Verifica se foi informado todos os digitos corretamente
         if (strlen($cpf) !== 11) {
             $this->error(self::NOT_IS_CPF);
             return false;
