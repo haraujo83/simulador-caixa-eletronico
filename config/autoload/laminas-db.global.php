@@ -1,14 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 return [
     'db' => [
-        'driver'   => 'pdo_mysql',
-        'database' => 'cx',
-        'username' => 'root',
-        'password' => null,
-        'hostname' => 'localhost',
-        'charset'  => 'utf8mb4',
+        'driver'         => 'pdo_mysql',
+        'database'       => 'cx',
+        'username'       => 'root',
+        'password'       => null,
+        'hostname'       => 'localhost',
+        'charset'        => 'utf8mb4',
         'driver_options' => [
             PDO::ATTR_CASE              => PDO::CASE_LOWER,
             PDO::ATTR_STRINGIFY_FETCHES => false,

@@ -31,8 +31,7 @@ class ConfigProvider
     public function getDependencies(): array
     {
         return [
-            'invokables' => [
-            ],
+            'invokables' => [],
             'factories'  => [
                 Handler\UsersHandler::class => Handler\UsersHandlerFactory::class,
             ],

@@ -3,7 +3,7 @@
     "description": "Simulador de Caixa Eletrônico",
     "type": "project",
     "license": "BSD-3-Clause",
-    "homepage": "",
+    "homepage": "https://github.com/helder1983/simulador-caixa-eletronico",
     "config": {
         "sort-packages": true
     },
@@ -40,13 +40,15 @@
       "ext-pdo": "*"
     },
     "require-dev": {
+        "filp/whoops": "^2.7.1",
+        "laminas/laminas-coding-standard": "^2.3",
         "laminas/laminas-development-mode": "^3.3.0",
         "mezzio/mezzio-tooling": "^1.4.0",
         "phpspec/prophecy": "^1.10.3",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.4.1",
         "roave/security-advisories": "dev-latest",
-        "filp/whoops": "^2.7.1"
+        "squizlabs/php_codesniffer": "3.*"
     },
     "autoload": {
         "psr-4": {

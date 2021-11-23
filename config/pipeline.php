@@ -28,7 +28,6 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     $app->pipe(ServerUrlMiddleware::class);
     $app->pipe(ProblemDetailsMiddleware::class);
 
-
     // Pipe more middleware here that you want to execute on every request:
     // - bootstrapping
     // - pre-conditions

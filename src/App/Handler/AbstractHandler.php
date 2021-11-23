@@ -20,81 +20,39 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
 
+use function lcfirst;
+use function method_exists;
+
 /**
- *
+ * Classe abstrata para os handlers
  */
 abstract class AbstractHandler implements RequestHandlerInterface
 {
-    /**
-     *
-     * @var array
-     */
+    /** @var array */
     protected array $config = [];
 
-    /**
-     * @var ContainerInterface
-     */
     protected ContainerInterface $container;
 
-    /**
-     *
-     * @var ProblemDetailsResponseFactory
-     */
     private ProblemDetailsResponseFactory $problemDetailsFactory;
 
     /**
-     * @param ContainerInterface $container
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public function __construct(
         ContainerInterface $container
     ) {
-        $this->setContainer($container);
-
-        $this->setProblemDetails($container->get(ProblemDetailsResponseFactory::class));
-
-        GlobalAdapterFeature::setStaticAdapter($container->get(Adapter::class));
-
-        $this->setConfig($container->get('config'));
-    }
-
-    /**
-     * @param ContainerInterface $container
-     * @return self
-     */
-    public function setContainer(ContainerInterface $container) : self
-    {
         $this->container = $container;
 
-        return $this;
+        $this->problemDetailsFactory = $container->get(ProblemDetailsResponseFactory::class);
+
+        GlobalAdapterFeature::setStaticAdapter($container->get(Adapter::class));
     }
 
     /**
-     * @param ProblemDetailsResponseFactory $problemDetailsFactory
-     * @return $this
-     */
-    public function setProblemDetails(ProblemDetailsResponseFactory $problemDetailsFactory): self
-    {
-        $this->problemDetailsFactory = $problemDetailsFactory;
-
-        return $this;
-    }
-
-    /**
-     * @param array $config
-     * @return self
-     */
-    public function setConfig(array $config) : self
-    {
-        $this->config = $config;
-
-        return $this;
-    }
-
-    /**
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface
+     * Handles a request and produces a response.
+     *
+     * May call other collaborating code to generate the response.
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
@@ -115,29 +73,32 @@ abstract class AbstractHandler implements RequestHandlerInterface
         $inputFilter->setData(['action' => $action]);
 
         try {
-            if ($inputFilter->isValid()) {
-                $validatedData = $inputFilter->getValues();
-                $action = lcfirst($validatedData['action']) . 'Action';
+            if (! $inputFilter->isValid()) {
+                throw new AppException\PageNotFoundException();
+            }
 
-                if (!method_exists($this, $action)) {
-                    throw new AppException\PageNotFoundException();
-                }
-            } else {
+            $action = lcfirst($inputFilter->getValue('action')) . 'Action';
+
+            if (! method_exists($this, $action)) {
                 throw new AppException\PageNotFoundException();
             }
         } catch (AppException\PageNotFoundException $e) {
             $response = $this->errorResponse($e, $request);
         }
 
-        if (!$response) {
+        if (! $response) {
             try {
                 $response = $this->$action($request);
-            } catch (AppException\PageNotFoundException|AppException\MethodNotAllowedException $e) {
+            } catch (
+                AppException\PageNotFoundException |
+                AppException\MethodNotAllowedException |
+                AppException\InputFilterValidationFailedException $e
+            ) {
                 $response = $this->errorResponse($e, $request);
             }
         }
 
-        if (!$response) {
+        if (! $response) {
             $response = new EmptyResponse();
         }
 
@@ -145,14 +106,13 @@ abstract class AbstractHandler implements RequestHandlerInterface
     }
 
     /**
-     *
-     * @param Throwable $e
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface
+     * @param Throwable $e Exceção
+     * @param ServerRequestInterface $request Requisição
+     * @return ResponseInterface Resposta
      */
-    private function errorResponse(Throwable $e, ServerRequestInterface $request) : ResponseInterface
+    private function errorResponse(Throwable $e, ServerRequestInterface $request): ResponseInterface
     {
-        $additional = [] ;
+        $additional = [];
         if (method_exists($e, 'getAdditional')) {
             $additional = $e->getAdditional();
         }
